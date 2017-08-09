@@ -1,8 +1,6 @@
 import React from 'react'
-import * as BooksAPI from './BooksAPI'
 import './App.css'
-import escapeRegExp from 'escape-string-regexp'
-import sortBy from 'sort-by'
+import FoundBooks from './FoundBooks'
 
 class BooksApp extends React.Component {
 
@@ -14,42 +12,14 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     showSearchPage: true,
-    query: '',
-    books: []
-  }
-
-  componentDidMount() {
-    BooksAPI.getAll().then((books) => {
-      this.setState({ books })
-      console.log('state = ', this.state.books);
-    })
-
+    query: ''
   }
 
   updateQuery = (query) => {
     this.setState({ query: query.trim() })
   }
 
-  clearQuery = () => {
-    this.setState({ query: '' })
-  }
-
   render() {
-    const { query, books } = this.state
-
-    let showingBooks
-    console.log('render -> query = ', query, 'books = ', books);
-    if (query) {
-      const match = new RegExp(escapeRegExp(query), 'i')
-      console.log('render -> books = ', books)
-      showingBooks = books.filter((books) => match.test(books.title))
-    } else {
-      showingBooks = books
-    }
-
-    showingBooks.sort(sortBy('title'))
-    console.log('showingBooks = ', showingBooks)
-
     return (
       <div className="app">
         {this.state.showSearchPage ? (
@@ -76,7 +46,7 @@ class BooksApp extends React.Component {
             </div>
             <div className="search-books-results">
               <ol className="books-grid">
-              <h1>Oi</h1>
+                <FoundBooks query={this.state.query}/>
               </ol>
             </div>
           </div>
