@@ -41,31 +41,15 @@ class FoundBooks extends Component {
         <ol className="found-books-list">
           {query.length !== 0 && showingBooks.map((books) => (
             <li key={books.id} className='contact-list-item'>
-              <Book author={books.authors[0]} title={books.title} />
+              <Book
+                author={books.authors[0]}
+                title={books.title}
+                thumbnail={books.imageLinks.thumbnail}/>
             </li>
           ))}
         </ol>
       </div>
     )
-
-    // return (
-    //   <div className="book">
-    //     <div className="book-top">
-    //
-    //       <div className="book-shelf-changer">
-    //         <select>
-    //           <option value="none" disabled="">Move to...</option>
-    //           <option value="currentlyReading">Currently Reading</option>
-    //           <option value="wantToRead">Want to Read</option>
-    //           <option value="read">Read</option>
-    //           <option value="none">None</option>
-    //         </select>
-    //       </div>
-    //     </div>
-    //     <div className="book-title">oieee</div>
-    //     <div className="book-authors">sou euuuuu</div>
-    //   </div>
-    // )
   }
 }
 
