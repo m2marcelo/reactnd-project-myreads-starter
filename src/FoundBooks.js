@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import * as BooksAPI from './BooksAPI'
 import escapeRegExp from 'escape-string-regexp'
 import sortBy from 'sort-by'
-
+import Book from './Book'
 
 class FoundBooks extends Component {
   state = {
@@ -41,10 +41,7 @@ class FoundBooks extends Component {
         <ol className="found-books-list">
           {query.length !== 0 && showingBooks.map((books) => (
             <li key={books.id} className='contact-list-item'>
-              <div className='found-books-details'>
-                <p>{books.authors[0]}</p>
-                <p>{books.title}</p>
-              </div>
+              <Book author={books.authors[0]} title={books.title} />
             </li>
           ))}
         </ol>
