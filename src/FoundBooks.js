@@ -4,6 +4,8 @@ import * as BooksAPI from './BooksAPI'
 import escapeRegExp from 'escape-string-regexp'
 import sortBy from 'sort-by'
 import Book from './Book'
+import './App.css'
+
 
 class FoundBooks extends Component {
   state = {
@@ -37,17 +39,20 @@ class FoundBooks extends Component {
     showingBooks.sort(sortBy('title'))
     console.log('showingBooks = ', showingBooks)
     return (
-      <div className="found-books">
-        <ol className="found-books-list">
-          {query.length !== 0 && showingBooks.map((books) => (
-            <li key={books.id} className='contact-list-item'>
-              <Book
-                author={books.authors}
-                title={books.title}
-                thumbnail={books.imageLinks.thumbnail}/>
-            </li>
-          ))}
-        </ol>
+      <div className="bookshelf">
+        <h2 class="bookshelf-title">Search Results</h2>
+        <div class="bookshelf-books">
+          <ol className="books-grid">
+            {query.length !== 0 && showingBooks.map((books) => (
+              <li key={books.id} className='contact-list-item'>
+                <Book
+                  author={books.authors}
+                  title={books.title}
+                  thumbnail={books.imageLinks.thumbnail}/>
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
     )
   }

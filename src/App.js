@@ -45,9 +45,7 @@ class BooksApp extends React.Component {
               </div>
             </div>
             <div className="search-books-results">
-              <ol className="books-grid">
-                <FoundBooks query={this.state.query}/>
-              </ol>
+              <FoundBooks query={this.state.query}/>
             </div>
           </div>
         ) : (
