@@ -6,7 +6,7 @@ import './App.css'
 class Book extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
+    author: PropTypes.array.isRequired,
     thumbnail: PropTypes.string.isRequired,
   }
 
@@ -39,7 +39,9 @@ class Book extends Component {
           </div>
         </div>
         <div className="book-title">{title}</div>
-        <div className="book-authors">{author}</div>
+        <div className="book-authors">
+          {author.map(author => <div key={author}> {author} </div>)}
+        </div>
       </div>
     )
   }

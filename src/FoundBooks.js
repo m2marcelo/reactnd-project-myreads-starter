@@ -42,7 +42,7 @@ class FoundBooks extends Component {
           {query.length !== 0 && showingBooks.map((books) => (
             <li key={books.id} className='contact-list-item'>
               <Book
-                author={books.authors[0]}
+                author={books.authors}
                 title={books.title}
                 thumbnail={books.imageLinks.thumbnail}/>
             </li>
