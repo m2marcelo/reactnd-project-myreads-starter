@@ -1,6 +1,8 @@
 import React from 'react'
 import './App.css'
 import FoundBooks from './FoundBooks'
+import * as BooksAPI from './BooksAPI'
+
 
 class BooksApp extends React.Component {
 
@@ -12,11 +14,16 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     showSearchPage: true,
-    query: ''
+    query: '',
+    books:[]
   }
 
   updateQuery = (query) => {
-    this.setState({ query: query.trim() })
+    if (query.length > 0){
+      BooksAPI.search(query.trim(), 20).then((books) => {
+        this.setState({ books })
+      })
+    }
   }
 
   render() {
@@ -39,7 +46,6 @@ class BooksApp extends React.Component {
                 placeholder="Search by title or author"
                 onChange={(event) => {
                   this.updateQuery(event.target.value)
-                  console.log("to vivo!")
                   }
                 } />
               </div>

@@ -18,7 +18,7 @@ class FoundBooks extends Component {
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
-      console.log('state = ', this.state.books);
+      // console.log('state = ', this.state.books);
     })
   }
 
@@ -27,7 +27,7 @@ class FoundBooks extends Component {
     const { query } = this.props
 
     let showingBooks
-    console.log('render -> query = ', query, 'books = ', books);
+    // console.log('render -> query = ', query, 'books = ', books);
     if (query) {
       const match = new RegExp(escapeRegExp(query), 'i')
       console.log('render -> books = ', books)
@@ -37,11 +37,11 @@ class FoundBooks extends Component {
     }
 
     showingBooks.sort(sortBy('title'))
-    console.log('showingBooks = ', showingBooks)
+    // console.log('showingBooks = ', showingBooks)
     return (
       <div className="bookshelf">
-        <h2 class="bookshelf-title">Search Results</h2>
-        <div class="bookshelf-books">
+        <h2 className="bookshelf-title">Search Results</h2>
+        <div className="bookshelf-books">
           <ol className="books-grid">
             {query.length !== 0 && showingBooks.map((books) => (
               <li key={books.id} className='contact-list-item'>
