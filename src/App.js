@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import FoundBooks from './FoundBooks'
+import BookShelf from './BookShelf'
 import * as BooksAPI from './BooksAPI'
 
 
@@ -21,7 +21,23 @@ class BooksApp extends React.Component {
   updateQuery = (query) => {
     if (query.length > 0){
       BooksAPI.search(query.trim(), 20).then((books) => {
-        this.setState({ books })
+        if (books.error) {
+          this.setState({ books: [] })
+        } else {
+          books.map((book) => {
+            if (!book.authors) {
+              book.authors = ['']
+            }
+            if (!book.title) {
+              book.title = ''
+            }
+            if (!book.imageLinks ||
+               !book.imageLinks.thumbnail) {
+              book.imageLinks = { thumbnail: ''}
+            }
+          })
+          this.setState({ books })
+        }
       })
     }
   }
@@ -51,7 +67,7 @@ class BooksApp extends React.Component {
               </div>
             </div>
             <div className="search-books-results">
-              <FoundBooks query={this.state.query}/>
+              <BookShelf books={this.state.books} />
             </div>
           </div>
         ) : (
