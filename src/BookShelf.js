@@ -10,14 +10,15 @@ class BookShelf extends Component {
 
   static propTypes = {
     books: PropTypes.array.isRequired,
+    title: PropTypes.string.isRequired,
   }
 
   render() {
-    const { books } = this.props
+    const { books, title } = this.props
 
     return (
       <div className="bookshelf">
-        <h2 className="bookshelf-title">Search Results</h2>
+        <h2 className="bookshelf-title">{title}</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
             {books.length !== 0 && books.map((book) => (
