@@ -21,6 +21,12 @@ class BookShelf extends Component {
     console.log('state.shelfBooks = ', this.state.shelfBooks);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if(prevProps !== this.props) {
+        this.setState({shelfBooks: this.props.books})
+    }
+  }
+
   render() {
     const { books, title } = this.props
 
