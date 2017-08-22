@@ -74,7 +74,8 @@ class BooksApp extends React.Component {
             <div className="search-books-results">
               <BookShelf
                 books={this.state.books}
-                title='Search Results'/>
+                title='Search Results'
+                category="found"/>
             </div>
           </div>
         ) : (
@@ -86,13 +87,16 @@ class BooksApp extends React.Component {
               <div>
                 <BookShelf
                   books={currentlyReading.books}
-                  title={currentlyReading.title}/>
+                  title={currentlyReading.title}
+                  category="currentlyReading"/>
                 <BookShelf
                   books={wantToRead.books}
-                  title={wantToRead.title}/>
+                  title={wantToRead.title}
+                  category="wantToRead"/>
                 <BookShelf
                   books={read.books}
-                  title={read.title}/>
+                  title={read.title}
+                  category="read"/>
               </div>
             </div>
             <div className="open-search">

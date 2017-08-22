@@ -5,9 +5,8 @@ import './App.css'
 
 class Book extends Component {
   static propTypes = {
-    title: PropTypes.string.isRequired,
-    author: PropTypes.array.isRequired,
-    thumbnail: PropTypes.string.isRequired,
+    book: PropTypes.object,
+    onChangeShelf: PropTypes.func.isRequired
   }
 
   componentDidMount() {
@@ -15,12 +14,12 @@ class Book extends Component {
   }
 
   render() {
-    const { title, author, thumbnail } = this.props
+    const { book, onChangeShelf } = this.props
 
     const thumbStyle = {
       width: '128px',
       height: '193px',
-      backgroundImage: 'url(' + thumbnail + ')',
+      backgroundImage: 'url(' + book.imageLinks.thumbnail + ')',
     };
 
     return (
@@ -29,8 +28,13 @@ class Book extends Component {
           <div className="book-cover" style={thumbStyle}>
           </div>
           <div className="book-shelf-changer">
-            <select>
-              <option value="none" disabled="">Move to...</option>
+            <select
+              defaultValue="none"
+              onChange={(event) => {
+                onChangeShelf(event.target.value, book)
+                }
+              }>
+              <option value="move to" disabled="true">Move to...</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
               <option value="read">Read</option>
@@ -38,9 +42,9 @@ class Book extends Component {
             </select>
           </div>
         </div>
-        <div className="book-title">{title}</div>
+        <div className="book-title">{book.title}</div>
         <div className="book-authors">
-          {author.map(author => <div key={author}> {author} </div>)}
+          {book.authors.map(author => <div key={author}> {author} </div>)}
         </div>
       </div>
     )

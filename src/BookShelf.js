@@ -6,11 +6,19 @@ import './App.css'
 
 class BookShelf extends Component {
   state = {
+    shelfBooks: []
   }
 
   static propTypes = {
     books: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+  }
+
+  changeShelf = (shelfName, book) => {
+    console.log('shelfName = ', shelfName);
+    console.log('book = ', book);
+    console.log('state.shelfBooks = ', this.state.shelfBooks);
   }
 
   render() {
@@ -24,9 +32,8 @@ class BookShelf extends Component {
             {books.length !== 0 && books.map((book) => (
               <li key={book.id} className='contact-list-item'>
                 <Book
-                  author={book.authors}
-                  title={book.title}
-                  thumbnail={book.imageLinks.thumbnail}/>
+                  book={book}
+                  onChangeShelf={this.changeShelf}/>
               </li>
             ))}
           </ol>
