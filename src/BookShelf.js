@@ -5,30 +5,15 @@ import './App.css'
 
 
 class BookShelf extends Component {
-  state = {
-    shelfBooks: []
-  }
-
   static propTypes = {
     books: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
-  }
-
-  changeShelf = (shelfName, book) => {
-    console.log('shelfName = ', shelfName);
-    console.log('book = ', book);
-    console.log('state.shelfBooks = ', this.state.shelfBooks);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if(prevProps !== this.props) {
-        this.setState({shelfBooks: this.props.books})
-    }
+    changeShelf: PropTypes.func.isRequired
   }
 
   render() {
-    const { books, title } = this.props
+    const { books, title, category, changeShelf } = this.props
 
     return (
       <div className="bookshelf">
@@ -39,7 +24,8 @@ class BookShelf extends Component {
               <li key={book.id} className='contact-list-item'>
                 <Book
                   book={book}
-                  onChangeShelf={this.changeShelf}/>
+                  onChangeShelf={changeShelf}
+                  selectDefault={category}/>
               </li>
             ))}
           </ol>

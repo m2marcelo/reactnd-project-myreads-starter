@@ -6,15 +6,13 @@ import './App.css'
 class Book extends Component {
   static propTypes = {
     book: PropTypes.object,
-    onChangeShelf: PropTypes.func.isRequired
+    onChangeShelf: PropTypes.func.isRequired,
+    selectDefault: PropTypes.string.isRequired
   }
 
-  componentDidMount() {
-
-  }
 
   render() {
-    const { book, onChangeShelf } = this.props
+    const { book, onChangeShelf, selectDefault } = this.props
 
     const thumbStyle = {
       width: '128px',
@@ -29,7 +27,7 @@ class Book extends Component {
           </div>
           <div className="book-shelf-changer">
             <select
-              defaultValue="none"
+              defaultValue={selectDefault}
               onChange={(event) => {
                 onChangeShelf(event.target.value, book)
                 }

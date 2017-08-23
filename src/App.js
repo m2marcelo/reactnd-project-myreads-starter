@@ -20,7 +20,10 @@ class BooksApp extends React.Component {
      */
     showSearchPage: true,
     query: '',
-    books:[]
+    books:[],
+    reading: currentlyReading.books,
+    wantRead: wantToRead.books,
+    read: read.books,
   }
 
   updateQuery = (query) => {
@@ -44,6 +47,39 @@ class BooksApp extends React.Component {
           this.setState({ books })
         }
       })
+    }
+  }
+
+  changeShelf = (shelfName, book) => {
+    switch (shelfName) {
+      case 'currentlyReading':
+        this.setState((state) => ({
+          wantRead: state.wantRead.filter((c) => c.id !== book.id),
+          read: state.read.filter((c) => c.id !== book.id),
+          reading: state.reading.concat([ book ])
+        }))
+        break;
+      case 'wantToRead':
+        this.setState((state) => ({
+          reading: state.reading.filter((c) => c.id !== book.id),
+          read: state.read.filter((c) => c.id !== book.id),
+          wantRead: state.wantRead.concat([ book ])
+        }))
+        break;
+      case 'read':
+        this.setState((state) => ({
+          reading: state.reading.filter((c) => c.id !== book.id),
+          wantRead: state.wantRead.filter((c) => c.id !== book.id),
+          read: state.read.concat([ book ])
+        }))
+        break;
+      case 'none':
+        this.setState((state) => ({
+          reading: state.reading.filter((c) => c.id !== book.id),
+          wantRead: state.wantRead.filter((c) => c.id !== book.id),
+          read: state.read.filter((c) => c.id !== book.id),
+        }))
+        break;
     }
   }
 
@@ -75,7 +111,8 @@ class BooksApp extends React.Component {
               <BookShelf
                 books={this.state.books}
                 title='Search Results'
-                category="found"/>
+                category="none"
+                changeShelf={this.changeShelf}/>
             </div>
           </div>
         ) : (
@@ -86,17 +123,20 @@ class BooksApp extends React.Component {
             <div className="list-books-content">
               <div>
                 <BookShelf
-                  books={currentlyReading.books}
+                  books={this.state.reading}
                   title={currentlyReading.title}
-                  category="currentlyReading"/>
+                  category="currentlyReading"
+                  changeShelf={this.changeShelf}/>
                 <BookShelf
-                  books={wantToRead.books}
+                  books={this.state.wantRead}
                   title={wantToRead.title}
-                  category="wantToRead"/>
+                  category="wantToRead"
+                  changeShelf={this.changeShelf}/>
                 <BookShelf
-                  books={read.books}
+                  books={this.state.read}
                   title={read.title}
-                  category="read"/>
+                  category="read"
+                  changeShelf={this.changeShelf}/>
               </div>
             </div>
             <div className="open-search">
