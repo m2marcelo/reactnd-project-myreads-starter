@@ -25,7 +25,7 @@ class BookShelf extends Component {
                 <Book
                   book={book}
                   onChangeShelf={changeShelf}
-                  selectDefault={category}/>
+                  selectDefault={book.shelfName ? book.shelfName : category}/>
               </li>
             ))}
           </ol>
