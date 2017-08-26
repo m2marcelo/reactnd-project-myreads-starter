@@ -26,6 +26,10 @@ class BooksApp extends React.Component {
     read: read.books,
   }
 
+  findInShelf = (book, shelfName) => {
+    return shelfName.find(storedBook => storedBook.title === book.title)
+  }
+
   updateQuery = (query) => {
     if (query.length > 0){
       BooksAPI.search(query.trim(), 20).then((books) => {
@@ -43,6 +47,15 @@ class BooksApp extends React.Component {
                !book.imageLinks.thumbnail) {
               book.imageLinks = { thumbnail: ''}
             }
+            if (this.findInShelf(book, this.state.reading)) {
+              book.shelfName = 'currentlyReading'
+            } else if (this.findInShelf(book, this.state.wantRead)) {
+              book.shelfName = 'wantToRead'
+            } else if (this.findInShelf(book, this.state.read)) {
+              book.shelfName = 'read'
+            } else {
+              book.shelfName = 'none'
+            }
           })
           this.setState({ books })
         }
@@ -51,6 +64,10 @@ class BooksApp extends React.Component {
   }
 
   changeShelf = (shelfName, book) => {
+    if (book.shelfName !== shelfName) {
+      book.shelfName = shelfName
+    }
+
     switch (shelfName) {
       case 'currentlyReading':
         this.setState((state) => ({
