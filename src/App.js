@@ -28,7 +28,7 @@ class BooksApp extends React.Component {
     if (query.length > 0){
       BooksAPI.search(query.trim(), 20).then((books) => {
         if (books.error) {
-          this.setState({ books: [] })
+          this.clearSearch()
         } else {
           books.map((book) => {
             if (!book.authors) {
@@ -95,6 +95,10 @@ class BooksApp extends React.Component {
     }
   }
 
+  clearSearch = () => {
+    this.setState({ books: [] })
+  }
+
   render() {
     return (
       <div className="app">
@@ -123,11 +127,11 @@ class BooksApp extends React.Component {
                 </div>
               </div>
               <div className="open-search">
-                <Link to='/create' className='add-a-book'>Add a book</Link>
+                <Link to='/search' className='add-a-book' onClick={this.clearSearch}>Add a book</Link>
               </div>
             </div>
           )}/>
-          <Route path='/create' render={({ history }) => (
+          <Route path='/search' render={({ history }) => (
             <div className="search-books">
               <div className="search-books-bar">
                 <Link to='/' className="close-search">Close</Link>
