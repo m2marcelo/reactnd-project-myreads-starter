@@ -3,11 +3,6 @@ import { Route, Link } from 'react-router-dom'
 import './App.css'
 import BookShelf from './BookShelf'
 import * as BooksAPI from './BooksAPI'
-import {
-  currentlyReading,
-  wantToRead,
-  read
-} from './constants'
 
 
 class BooksApp extends React.Component {
@@ -15,9 +10,9 @@ class BooksApp extends React.Component {
   state = {
     query: '',
     books:[],
-    reading: currentlyReading.books,
-    wantRead: wantToRead.books,
-    read: read.books,
+    reading: [],
+    wantRead: [],
+    read: [],
   }
 
   findInShelf = (book, shelfName) => {
@@ -57,42 +52,27 @@ class BooksApp extends React.Component {
     }
   }
 
-  changeShelf = (shelfName, book) => {
-    if (book.shelfName !== shelfName) {
-      book.shelfName = shelfName
-    }
+  fillShelves = () => {
+    let { reading, wantRead, read } = []
+    BooksAPI.getAll().then((books) => {
+      if (books.length !== 0) {
+        reading = books.filter((book) => book.shelf === "currentlyReading")
+        wantRead = books.filter((book) => book.shelf === "wantToRead")
+        read = books.filter((book) => book.shelf === "read")
+        this.setState({reading, wantRead, read})
+      }
+    })
+  }
 
-    switch (shelfName) {
-      case 'currentlyReading':
-        this.setState((state) => ({
-          wantRead: state.wantRead.filter((c) => c.id !== book.id),
-          read: state.read.filter((c) => c.id !== book.id),
-          reading: state.reading.concat([ book ])
-        }))
-        break;
-      case 'wantToRead':
-        this.setState((state) => ({
-          reading: state.reading.filter((c) => c.id !== book.id),
-          read: state.read.filter((c) => c.id !== book.id),
-          wantRead: state.wantRead.concat([ book ])
-        }))
-        break;
-      case 'read':
-        this.setState((state) => ({
-          reading: state.reading.filter((c) => c.id !== book.id),
-          wantRead: state.wantRead.filter((c) => c.id !== book.id),
-          read: state.read.concat([ book ])
-        }))
-        break;
-      case 'none':
-      default:
-        this.setState((state) => ({
-          reading: state.reading.filter((c) => c.id !== book.id),
-          wantRead: state.wantRead.filter((c) => c.id !== book.id),
-          read: state.read.filter((c) => c.id !== book.id),
-        }))
-        break;
-    }
+
+  componentDidMount() {
+    this.fillShelves()
+  }
+
+  changeShelf = (shelfName, book) => {
+    BooksAPI.update(book, shelfName).then((books) => {
+      this.fillShelves()
+    })
   }
 
   clearSearch = () => {
@@ -100,6 +80,8 @@ class BooksApp extends React.Component {
   }
 
   render() {
+    const { reading, wantRead, read } = this.state
+
     return (
       <div className="app">
           <Route exact path='/' render={() => (
@@ -109,21 +91,27 @@ class BooksApp extends React.Component {
               </div>
               <div className="list-books-content">
                 <div>
+                {reading.length > 0 && (
                   <BookShelf
-                    books={this.state.reading}
-                    title={currentlyReading.title}
+                    books={reading}
+                    title="Currently Reading"
                     category="currentlyReading"
                     changeShelf={this.changeShelf}/>
+                  )}
+                  {reading.length > 0 && (
                   <BookShelf
-                    books={this.state.wantRead}
-                    title={wantToRead.title}
+                    books={wantRead}
+                    title="Want to Read"
                     category="wantToRead"
                     changeShelf={this.changeShelf}/>
+                  )}
+                  {reading.length > 0 && (
                   <BookShelf
-                    books={this.state.read}
-                    title={read.title}
+                    books={read}
+                    title="Read"
                     category="read"
                     changeShelf={this.changeShelf}/>
+                  )}
                 </div>
               </div>
               <div className="open-search">
