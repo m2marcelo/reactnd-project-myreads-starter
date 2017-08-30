@@ -98,14 +98,14 @@ class BooksApp extends React.Component {
                     category="currentlyReading"
                     changeShelf={this.changeShelf}/>
                   )}
-                  {reading.length > 0 && (
+                  {wantRead.length > 0 && (
                   <BookShelf
                     books={wantRead}
                     title="Want to Read"
                     category="wantToRead"
                     changeShelf={this.changeShelf}/>
                   )}
-                  {reading.length > 0 && (
+                  {read.length > 0 && (
                   <BookShelf
                     books={read}
                     title="Read"

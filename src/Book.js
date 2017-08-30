@@ -13,18 +13,22 @@ class Book extends Component {
 
   render() {
     const { book, onChangeShelf, selectDefault } = this.props
+    let thumbStyle = {}
 
-    const thumbStyle = {
-      width: '128px',
-      height: '193px',
-      backgroundImage: 'url(' + book.imageLinks.thumbnail + ')',
-    };
+    if (book.imageLinks) {
+      thumbStyle = {
+        width: '128px',
+        height: '193px',
+        backgroundImage: 'url(' + book.imageLinks.thumbnail + ')',
+      };
+    }
 
     return (
       <div className="book">
         <div className="book-top">
+          {book.imageLinks && (
           <div className="book-cover" style={thumbStyle}>
-          </div>
+          </div>)}
           <div className="book-shelf-changer">
             <select
               defaultValue={selectDefault}
