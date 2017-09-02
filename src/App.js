@@ -1,7 +1,8 @@
 import React from 'react'
-import { Route, Link } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import './App.css'
-import BookShelf from './BookShelf'
+import MyReads from './MyReads'
+import SearchBooks from './Search'
 import * as BooksAPI from './BooksAPI'
 
 
@@ -49,6 +50,8 @@ class BooksApp extends React.Component {
           this.setState({ books })
         }
       })
+    } else {
+      this.clearSearch()
     }
   }
 
@@ -85,61 +88,18 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
           <Route exact path='/' render={() => (
-            <div className="list-books">
-              <div className="list-books-title">
-                <h1>MyReads</h1>
-              </div>
-              <div className="list-books-content">
-                <div>
-                {reading.length > 0 && (
-                  <BookShelf
-                    books={reading}
-                    title="Currently Reading"
-                    category="currentlyReading"
-                    changeShelf={this.changeShelf}/>
-                  )}
-                  {wantRead.length > 0 && (
-                  <BookShelf
-                    books={wantRead}
-                    title="Want to Read"
-                    category="wantToRead"
-                    changeShelf={this.changeShelf}/>
-                  )}
-                  {read.length > 0 && (
-                  <BookShelf
-                    books={read}
-                    title="Read"
-                    category="read"
-                    changeShelf={this.changeShelf}/>
-                  )}
-                </div>
-              </div>
-              <div className="open-search">
-                <Link to='/search' className='add-a-book' onClick={this.clearSearch}>Add a book</Link>
-              </div>
-            </div>
+            <MyReads
+              reading={reading}
+              wantRead={wantRead}
+              read={read}
+              changeShelf={this.changeShelf}
+              openSearch={this.clearSearch}/>
           )}/>
           <Route path='/search' render={({ history }) => (
-            <div className="search-books">
-              <div className="search-books-bar">
-                <Link to='/' className="close-search">Close</Link>
-                <div className="search-books-input-wrapper">
-                  <input type="text"
-                  placeholder="Search by title or author"
-                  onChange={(event) => {
-                    this.updateQuery(event.target.value)
-                    }
-                  } />
-                </div>
-              </div>
-              <div className="search-books-results">
-                <BookShelf
-                  books={this.state.books}
-                  title='Search Results'
-                  category="none"
-                  changeShelf={this.changeShelf}/>
-              </div>
-            </div>
+            <SearchBooks
+              books={this.state.books}
+              inputSearch={this.updateQuery}
+              changeShelf={this.changeShelf}/>
           )}/>
       </div>
     )

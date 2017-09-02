@@ -17,8 +17,6 @@ class Book extends Component {
 
     if (book.imageLinks) {
       thumbStyle = {
-        width: '128px',
-        height: '193px',
         backgroundImage: 'url(' + book.imageLinks.thumbnail + ')',
       };
     }
